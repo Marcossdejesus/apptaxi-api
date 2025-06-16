@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "AppTaxi API",
+		"description": "Collection para testar a API do AppTaxi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Motoristas",
+			"item": [
+				{
+					"name": "Listar Motoristas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/motoristas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas"]
+						}
+					}
+				},
+				{
+					"name": "Criar Motorista",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva\",\n    \"cnh\": \"12345678900\",\n    \"placa\": \"ABC1234\",\n    \"modelo\": \"Toyota Corolla\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/motoristas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas"]
+						}
+					}
+				},
+				{
+					"name": "Obter Motorista",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/motoristas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Motorista",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva Atualizado\",\n    \"modelo\": \"Honda Civic\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/motoristas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Remover Motorista",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/motoristas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Passageiros",
+			"item": [
+				{
+					"name": "Listar Passageiros",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passageiros",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros"]
+						}
+					}
+				},
+				{
+					"name": "Criar Passageiro",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Maria Santos\",\n    \"cpf\": \"12345678900\",\n    \"telefone\": \"(11) 98765-4321\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/passageiros",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros"]
+						}
+					}
+				},
+				{
+					"name": "Obter Passageiro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passageiros/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Passageiro",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Maria Santos Atualizada\",\n    \"telefone\": \"(11) 91234-5678\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/passageiros/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros", "1"]
+						}
+					}
+				},
+				{
+					"name": "Remover Passageiro",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passageiros/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Corridas",
+			"item": [
+				{
+					"name": "Listar Corridas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/corridas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas"]
+						}
+					}
+				},
+				{
+					"name": "Criar Corrida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"origem\": \"Rua A, 123\",\n    \"destino\": \"Rua B, 456\",\n    \"valor\": 25.50,\n    \"data\": \"2024-03-20T10:00:00Z\",\n    \"motoristaId\": 1,\n    \"passageiroId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/corridas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas"]
+						}
+					}
+				},
+				{
+					"name": "Obter Corrida",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/corridas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Corrida",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"EM_ANDAMENTO\",\n    \"valor\": 30.00\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/corridas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Remover Corrida",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/corridas/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas", "1"]
+						}
+					}
+				}
+			]
+		}
+	]
+} 
