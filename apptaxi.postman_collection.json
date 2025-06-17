@@ -285,7 +285,53 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Maria Santos\",\n    \"cpf\": \"12345678900\",\n    \"telefone\": \"(11) 98765-4321\"\n}"
+							"raw": "{\n    \"nome\": \"Maria Santos\",\n    \"cpf\": \"12345678901\",\n    \"telefone\": \"11999999999\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/passageiros",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros"]
+						}
+					}
+				},
+				{
+					"name": "Criar Passageiro - Regra CPF Duplicado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva\",\n    \"cpf\": \"12345678901\",\n    \"telefone\": \"11988888888\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/passageiros",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros"]
+						}
+					}
+				},
+				{
+					"name": "Criar Passageiro - Campos Obrigatórios",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva\",\n    \"telefone\": \"11988888888\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/passageiros",
@@ -322,7 +368,30 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Maria Santos Atualizada\",\n    \"telefone\": \"(11) 91234-5678\"\n}"
+							"raw": "{\n    \"nome\": \"Maria Santos Atualizada\",\n    \"telefone\": \"11977777777\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/passageiros/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Passageiro - Regra CPF Duplicado",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"12345678902\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/passageiros/1",
@@ -344,6 +413,20 @@
 							"host": ["localhost"],
 							"port": "3000",
 							"path": ["passageiros", "1"]
+						}
+					}
+				},
+				{
+					"name": "Remover Passageiro - Regra Corrida em Andamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passageiros/2",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["passageiros", "2"]
 						}
 					}
 				}
@@ -460,6 +543,20 @@
 							"host": ["localhost"],
 							"port": "3000",
 							"path": ["corridas"]
+						}
+					}
+				},
+				{
+					"name": "Remover Corrida - Regra em Andamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/corridas/2",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas", "2"]
 						}
 					}
 				},
