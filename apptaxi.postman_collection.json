@@ -7,6 +7,103 @@
 	},
 	"item": [
 		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Estatísticas Gerais",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/dashboard/estatisticas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["dashboard", "estatisticas"]
+						}
+					}
+				},
+				{
+					"name": "Corridas por Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/dashboard/corridas/status",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["dashboard", "corridas", "status"]
+						}
+					}
+				},
+				{
+					"name": "Faturamento por Período",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/dashboard/faturamento?dataInicio=2025-06-15&dataFim=2025-06-16",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["dashboard", "faturamento"],
+							"query": [
+								{
+									"key": "dataInicio",
+									"value": "2025-06-15"
+								},
+								{
+									"key": "dataFim",
+									"value": "2025-06-16"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Motoristas Mais Ativos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/dashboard/motoristas/ativos?limit=3",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["dashboard", "motoristas", "ativos"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Passageiros Mais Frequentes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/dashboard/passageiros/frequentes?limit=3",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["dashboard", "passageiros", "frequentes"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "Motoristas",
 			"item": [
 				{
@@ -35,7 +132,53 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"João Silva\",\n    \"cnh\": \"12345678900\",\n    \"placa\": \"ABC1234\",\n    \"modelo\": \"Toyota Corolla\"\n}"
+							"raw": "{\n    \"nome\": \"João Silva\",\n    \"cnh\": \"12345678909\",\n    \"placa\": \"ABC1235\",\n    \"modelo\": \"Toyota Corolla\",\n    \"disponivel\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/motoristas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas"]
+						}
+					}
+				},
+				{
+					"name": "Criar Motorista - Regra Placa Duplicada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva\",\n    \"cnh\": \"12345678914\",\n    \"placa\": \"ABC1234\",\n    \"modelo\": \"Toyota Corolla\",\n    \"disponivel\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/motoristas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas"]
+						}
+					}
+				},
+				{
+					"name": "Criar Motorista - Regra CNH Duplicada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva\",\n    \"cnh\": \"12345678900\",\n    \"placa\": \"ABC1234\",\n    \"modelo\": \"Toyota Corolla\",\n    \"disponivel\": true\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/motoristas",
@@ -72,7 +215,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"João Silva Atualizado\",\n    \"modelo\": \"Honda Civic\"\n}"
+							"raw": "{\n    \"disponivel\": true\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/motoristas/1",
@@ -89,11 +232,25 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/motoristas/1",
+							"raw": "http://localhost:3000/motoristas/4",
 							"protocol": "http",
 							"host": ["localhost"],
 							"port": "3000",
-							"path": ["motoristas", "1"]
+							"path": ["motoristas", "4"]
+						}
+					}
+				},
+				{
+					"name": "Remover Motorista - Regra Corrida em Andamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/motoristas/2",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["motoristas", "2"]
 						}
 					}
 				}
@@ -280,6 +437,52 @@
 							"host": ["localhost"],
 							"port": "3000",
 							"path": ["corridas", "1"]
+						}
+					}
+				},
+				{
+					"name": "Criar Corrida - Regra Motorista Não Disponível",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"origem\": \"Rua Aguiar, 123\",\n    \"destino\": \"Rua Martins, 456\",\n    \"valor\": 50.75,\n    \"data\": \"2024-06-15T14:00:00.000Z\",\n    \"motoristaId\": 2,\n    \"passageiroId\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/corridas",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Corrida - Regra Não Pode Cancelar em Andamento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"CANCELADA\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/corridas/2",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["corridas", "2"]
 						}
 					}
 				}

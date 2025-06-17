@@ -12,6 +12,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const motorista_module_1 = require("./motorista/motorista.module");
 const passageiro_module_1 = require("./passageiro/passageiro.module");
 const corrida_module_1 = require("./corrida/corrida.module");
+const dashboard_module_1 = require("./dashboard/dashboard.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,13 +26,14 @@ exports.AppModule = AppModule = __decorate([
                 username: 'postgres',
                 password: 'postgres',
                 database: 'AppTaxi',
-                entities: [__dirname + '/**/entities/*.entity{.ts,.js}'],
+                entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: false,
                 logging: true
             }),
             motorista_module_1.MotoristaModule,
             passageiro_module_1.PassageiroModule,
-            corrida_module_1.CorridaModule
+            corrida_module_1.CorridaModule,
+            dashboard_module_1.DashboardModule
         ],
     })
 ], AppModule);

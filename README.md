@@ -88,6 +88,20 @@ npm run start:prod
 - PUT /corridas/:id - Atualiza uma corrida
 - DELETE /corridas/:id - Remove uma corrida
 
+### Dashboard
+- GET /dashboard/estatisticas - Retorna estatísticas gerais (total de corridas, motoristas e passageiros)
+- GET /dashboard/corridas/status - Retorna quantidade de corridas por status
+- GET /dashboard/faturamento - Retorna faturamento por período
+  - Parâmetros:
+    - dataInicio: Data inicial (ex: 2025-06-15T00:00:00.000Z)
+    - dataFim: Data final (ex: 2025-06-16T23:59:59.999Z)
+- GET /dashboard/motoristas/ativos - Retorna os motoristas mais ativos
+  - Parâmetros opcionais:
+    - limit: Número máximo de motoristas (padrão: 5)
+- GET /dashboard/passageiros/frequentes - Retorna os passageiros mais frequentes
+  - Parâmetros opcionais:
+    - limit: Número máximo de passageiros (padrão: 5)
+
 ## Collection do Postman
 
 A collection do Postman com todos os endpoints e exemplos de requisições está disponível no arquivo `apptaxi.postman_collection.json` na raiz do projeto.

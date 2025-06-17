@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MotoristaModule } from './motorista/motorista.module';
 import { PassageiroModule } from './passageiro/passageiro.module';
 import { CorridaModule } from './corrida/corrida.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -13,13 +14,14 @@ import { CorridaModule } from './corrida/corrida.module';
       username: 'postgres',
       password: 'postgres',
       database: 'AppTaxi',
-      entities: [__dirname + '/**/entities/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false,
       logging: true
     }),
     MotoristaModule,
     PassageiroModule,
-    CorridaModule
+    CorridaModule,
+    DashboardModule
   ],
 })
 export class AppModule {} 
