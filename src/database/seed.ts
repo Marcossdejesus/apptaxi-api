@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { Motorista } from '../motorista/entities/motorista.entity';
 import { Passageiro } from '../passageiro/entities/passageiro.entity';
 import { Corrida, CorridaStatus } from '../corrida/entities/corrida.entity';
+import { Veiculo, VeiculoStatus } from '../veiculo/entities/veiculo.entity';
 
 const dataSource = new DataSource({
   type: 'postgres',
@@ -10,7 +11,7 @@ const dataSource = new DataSource({
   username: 'postgres',
   password: 'postgres',
   database: 'AppTaxi',
-  entities: [Motorista, Passageiro, Corrida],
+  entities: [Motorista, Passageiro, Corrida, Veiculo],
   synchronize: true,
   logging: true
 });
@@ -24,6 +25,47 @@ async function seed() {
     await dataSource.query('TRUNCATE TABLE corrida CASCADE');
     await dataSource.query('TRUNCATE TABLE motorista CASCADE');
     await dataSource.query('TRUNCATE TABLE passageiro CASCADE');
+    await dataSource.query('TRUNCATE TABLE veiculo CASCADE');
+
+    // Cria veículos
+    const veiculo1 = dataSource.manager.create(Veiculo, {
+      placa: 'ABC1234',
+      modelo: 'Corolla',
+      marca: 'Toyota',
+      ano: 2020,
+      cor: 'Prata',
+      status: VeiculoStatus.DISPONIVEL,
+      dataUltimaManutencao: new Date('2024-01-15'),
+      dataVencimentoIPVA: new Date('2024-12-31'),
+      dataVencimentoSeguro: new Date('2024-12-31'),
+    });
+
+    const veiculo2 = dataSource.manager.create(Veiculo, {
+      placa: 'DEF5678',
+      modelo: 'Civic',
+      marca: 'Honda',
+      ano: 2021,
+      cor: 'Preto',
+      status: VeiculoStatus.DISPONIVEL,
+      dataUltimaManutencao: new Date('2024-02-01'),
+      dataVencimentoIPVA: new Date('2024-12-31'),
+      dataVencimentoSeguro: new Date('2024-12-31'),
+    });
+
+    const veiculo3 = dataSource.manager.create(Veiculo, {
+      placa: 'GHI9012',
+      modelo: 'Golf',
+      marca: 'Volkswagen',
+      ano: 2019,
+      cor: 'Branco',
+      status: VeiculoStatus.EM_MANUTENCAO,
+      dataUltimaManutencao: new Date('2024-03-01'),
+      dataVencimentoIPVA: new Date('2024-12-31'),
+      dataVencimentoSeguro: new Date('2024-12-31'),
+    });
+
+    await dataSource.manager.save([veiculo1, veiculo2, veiculo3]);
+    console.log('Veículos criados');
 
     // Cria motoristas
     const motorista1 = dataSource.manager.create(Motorista, {
@@ -69,7 +111,8 @@ async function seed() {
       status: CorridaStatus.EM_ANDAMENTO,
       data: new Date('2024-06-15T14:00:00'),
       motorista: motorista1,
-      passageiro: passageiro1
+      passageiro: passageiro1,
+      veiculo: veiculo1
     });
 
     const corrida2 = dataSource.manager.create(Corrida, {
@@ -79,7 +122,8 @@ async function seed() {
       status: CorridaStatus.CONCLUIDA,
       data: new Date('2024-06-14T10:30:00'),
       motorista: motorista2,
-      passageiro: passageiro2
+      passageiro: passageiro2,
+      veiculo: veiculo2
     });
 
     await dataSource.manager.save([corrida1, corrida2]);

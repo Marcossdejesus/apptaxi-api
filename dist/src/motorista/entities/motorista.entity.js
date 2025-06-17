@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Motorista = void 0;
 const typeorm_1 = require("typeorm");
 const corrida_entity_1 = require("../../corrida/entities/corrida.entity");
+const veiculo_entity_1 = require("../../veiculo/entities/veiculo.entity");
 let Motorista = class Motorista {
 };
 exports.Motorista = Motorista;
@@ -43,6 +44,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => corrida_entity_1.Corrida, corrida => corrida.motorista),
     __metadata("design:type", Array)
 ], Motorista.prototype, "corridas", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => veiculo_entity_1.Veiculo, veiculo => veiculo.motorista),
+    __metadata("design:type", veiculo_entity_1.Veiculo)
+], Motorista.prototype, "veiculo", void 0);
 exports.Motorista = Motorista = __decorate([
     (0, typeorm_1.Entity)('motorista')
 ], Motorista);

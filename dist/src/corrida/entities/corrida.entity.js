@@ -13,6 +13,7 @@ exports.Corrida = exports.CorridaStatus = void 0;
 const typeorm_1 = require("typeorm");
 const motorista_entity_1 = require("../../motorista/entities/motorista.entity");
 const passageiro_entity_1 = require("../../passageiro/entities/passageiro.entity");
+const veiculo_entity_1 = require("../../veiculo/entities/veiculo.entity");
 var CorridaStatus;
 (function (CorridaStatus) {
     CorridaStatus["PENDENTE"] = "PENDENTE";
@@ -48,7 +49,7 @@ __decorate([
     __metadata("design:type", String)
 ], Corrida.prototype, "status", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], Corrida.prototype, "data", void 0);
 __decorate([
@@ -59,6 +60,10 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'passageiroId', nullable: true }),
     __metadata("design:type", Number)
 ], Corrida.prototype, "passageiroId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ name: 'veiculoId', nullable: true }),
+    __metadata("design:type", Number)
+], Corrida.prototype, "veiculoId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => motorista_entity_1.Motorista, motorista => motorista.corridas, {
         eager: true,
@@ -75,6 +80,11 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'passageiroId' }),
     __metadata("design:type", passageiro_entity_1.Passageiro)
 ], Corrida.prototype, "passageiro", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => veiculo_entity_1.Veiculo),
+    (0, typeorm_1.JoinColumn)({ name: 'veiculoId' }),
+    __metadata("design:type", veiculo_entity_1.Veiculo)
+], Corrida.prototype, "veiculo", void 0);
 exports.Corrida = Corrida = __decorate([
     (0, typeorm_1.Entity)('corrida')
 ], Corrida);

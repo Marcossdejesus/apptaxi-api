@@ -4,6 +4,7 @@ import { MotoristaModule } from './motorista/motorista.module';
 import { PassageiroModule } from './passageiro/passageiro.module';
 import { CorridaModule } from './corrida/corrida.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { VeiculoModule } from './veiculo/veiculo.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     MotoristaModule,
     PassageiroModule,
     CorridaModule,
-    DashboardModule
+    DashboardModule,
+    VeiculoModule,
   ],
 })
 export class AppModule {} 

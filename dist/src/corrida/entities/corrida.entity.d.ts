@@ -1,5 +1,6 @@
 import { Motorista } from '../../motorista/entities/motorista.entity';
 import { Passageiro } from '../../passageiro/entities/passageiro.entity';
+import { Veiculo } from '../../veiculo/entities/veiculo.entity';
 export declare enum CorridaStatus {
     PENDENTE = "PENDENTE",
     EM_ANDAMENTO = "EM_ANDAMENTO",
@@ -15,6 +16,8 @@ export declare class Corrida {
     data: Date;
     motoristaId: number;
     passageiroId: number;
+    veiculoId: number;
     motorista: Motorista;
     passageiro: Passageiro;
+    veiculo: Veiculo;
 }

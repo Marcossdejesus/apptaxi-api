@@ -6,6 +6,7 @@ import { CreateCorridaDto } from './dto/create-corrida.dto';
 import { UpdateCorridaDto } from './dto/update-corrida.dto';
 import { MotoristaService } from '../motorista/motorista.service';
 import { PassageiroService } from '../passageiro/passageiro.service';
+import { VeiculoService } from '../veiculo/veiculo.service';
 
 @Injectable()
 export class CorridaService {
@@ -14,6 +15,7 @@ export class CorridaService {
     private corridaRepository: Repository<Corrida>,
     private motoristaService: MotoristaService,
     private passageiroService: PassageiroService,
+    private veiculoService: VeiculoService,
   ) {}
 
   async create(createCorridaDto: CreateCorridaDto): Promise<Corrida> {
@@ -62,6 +64,13 @@ export class CorridaService {
 
     console.log('Corrida a ser criada:', corrida);
 
+    if (createCorridaDto.veiculoId) {
+      const veiculo = await this.veiculoService.findOne(createCorridaDto.veiculoId);
+      corrida.veiculo = veiculo;
+    } else if (motorista.veiculo) {
+      corrida.veiculo = motorista.veiculo;
+    }
+
     try {
       // Salvar corrida
       const corridaSalva = await this.corridaRepository.save(corrida);
@@ -76,6 +85,7 @@ export class CorridaService {
         .createQueryBuilder('corrida')
         .leftJoinAndSelect('corrida.motorista', 'motorista')
         .leftJoinAndSelect('corrida.passageiro', 'passageiro')
+        .leftJoinAndSelect('corrida.veiculo', 'veiculo')
         .where('corrida.id = :id', { id: corridaSalva.id })
         .getOne();
 
@@ -92,7 +102,7 @@ export class CorridaService {
       console.log('Buscando todas as corridas');
       
       const corridas = await this.corridaRepository.find({
-        relations: ['motorista', 'passageiro']
+        relations: ['motorista', 'passageiro', 'veiculo']
       });
 
       console.log('Corridas encontradas:', corridas);
@@ -114,6 +124,7 @@ export class CorridaService {
         .createQueryBuilder('corrida')
         .leftJoinAndSelect('corrida.motorista', 'motorista')
         .leftJoinAndSelect('corrida.passageiro', 'passageiro')
+        .leftJoinAndSelect('corrida.veiculo', 'veiculo')
         .where('corrida.id = :id', { id: Number(id) })
         .getOne();
 
@@ -122,8 +133,10 @@ export class CorridaService {
         status: corrida?.status,
         motoristaId: corrida?.motorista?.id,
         passageiroId: corrida?.passageiro?.id,
+        veiculoId: corrida?.veiculo?.id,
         motorista: corrida?.motorista,
-        passageiro: corrida?.passageiro
+        passageiro: corrida?.passageiro,
+        veiculo: corrida?.veiculo
       });
       
       if (!corrida) {
@@ -148,22 +161,14 @@ export class CorridaService {
 
       console.log(`Atualizando corrida ID: ${id}`);
       
-      const corrida = await this.corridaRepository
-        .createQueryBuilder('corrida')
-        .leftJoinAndSelect('corrida.motorista', 'motorista')
-        .leftJoinAndSelect('corrida.passageiro', 'passageiro')
-        .where('corrida.id = :id', { id: Number(id) })
-        .getOne();
-
-      if (!corrida) {
-        throw new BadRequestException(`Corrida com ID ${id} não encontrada`);
-      }
+      const corrida = await this.findOne(id);
 
       console.log('Corrida encontrada:', {
         id: corrida.id,
         status: corrida.status,
         motoristaId: corrida.motorista?.id,
-        passageiroId: corrida.passageiro?.id
+        passageiroId: corrida.passageiro?.id,
+        veiculoId: corrida.veiculo?.id
       });
 
       // Verifica se está tentando cancelar uma corrida em andamento
@@ -208,16 +213,13 @@ export class CorridaService {
       console.log('Tentando remover corrida ID:', id);
       
       // Primeiro, busca a corrida
-      const corrida = await this.corridaRepository
-        .createQueryBuilder('corrida')
-        .leftJoinAndSelect('corrida.motorista', 'motorista')
-        .where('corrida.id = :id', { id })
-        .getOne();
+      const corrida = await this.findOne(id);
 
       console.log('Corrida encontrada:', {
         id: corrida?.id,
         status: corrida?.status,
-        motoristaId: corrida?.motoristaId
+        motoristaId: corrida?.motoristaId,
+        veiculoId: corrida?.veiculoId
       });
       
       if (!corrida) {
@@ -281,5 +283,34 @@ export class CorridaService {
       }
       throw new BadRequestException(`Erro ao remover corrida: ${error.message}`);
     }
+  }
+
+  async findByStatus(status: string): Promise<Corrida[]> {
+    const corridaStatus = status as CorridaStatus;
+    return await this.corridaRepository.find({
+      where: { status: corridaStatus },
+      relations: ['motorista', 'passageiro', 'veiculo'],
+    });
+  }
+
+  async findByMotorista(motoristaId: number): Promise<Corrida[]> {
+    return await this.corridaRepository.find({
+      where: { motorista: { id: motoristaId } },
+      relations: ['motorista', 'passageiro', 'veiculo'],
+    });
+  }
+
+  async findByPassageiro(passageiroId: number): Promise<Corrida[]> {
+    return await this.corridaRepository.find({
+      where: { passageiro: { id: passageiroId } },
+      relations: ['motorista', 'passageiro', 'veiculo'],
+    });
+  }
+
+  async findByVeiculo(veiculoId: number): Promise<Corrida[]> {
+    return await this.corridaRepository.find({
+      where: { veiculo: { id: veiculoId } },
+      relations: ['motorista', 'passageiro', 'veiculo'],
+    });
   }
 } 

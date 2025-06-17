@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne } from 'typeorm';
 import { Corrida } from '../../corrida/entities/corrida.entity';
+import { Veiculo } from '../../veiculo/entities/veiculo.entity';
 
 @Entity('motorista')
 export class Motorista {
@@ -23,4 +24,7 @@ export class Motorista {
 
   @OneToMany(() => Corrida, corrida => corrida.motorista)
   corridas: Corrida[];
+
+  @OneToOne(() => Veiculo, veiculo => veiculo.motorista)
+  veiculo: Veiculo;
 } 

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateCorridaDto = void 0;
 const class_validator_1 = require("class-validator");
 const class_transformer_1 = require("class-transformer");
+const corrida_entity_1 = require("../entities/corrida.entity");
 class CreateCorridaDto {
 }
 exports.CreateCorridaDto = CreateCorridaDto;
@@ -34,6 +35,11 @@ __decorate([
     __metadata("design:type", Date)
 ], CreateCorridaDto.prototype, "data", void 0);
 __decorate([
+    (0, class_validator_1.IsEnum)(corrida_entity_1.CorridaStatus),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateCorridaDto.prototype, "status", void 0);
+__decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateCorridaDto.prototype, "motoristaId", void 0);
@@ -41,4 +47,9 @@ __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateCorridaDto.prototype, "passageiroId", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateCorridaDto.prototype, "veiculoId", void 0);
 //# sourceMappingURL=create-corrida.dto.js.map

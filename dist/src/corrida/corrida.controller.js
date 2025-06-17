@@ -24,8 +24,20 @@ let CorridaController = class CorridaController {
     create(createCorridaDto) {
         return this.corridaService.create(createCorridaDto);
     }
-    findAll() {
+    findAll(status) {
+        if (status) {
+            return this.corridaService.findByStatus(status);
+        }
         return this.corridaService.findAll();
+    }
+    findByMotorista(id) {
+        return this.corridaService.findByMotorista(+id);
+    }
+    findByPassageiro(id) {
+        return this.corridaService.findByPassageiro(+id);
+    }
+    findByVeiculo(id) {
+        return this.corridaService.findByVeiculo(+id);
     }
     findOne(id) {
         return this.corridaService.findOne(+id);
@@ -55,10 +67,32 @@ __decorate([
 ], CorridaController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('status')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CorridaController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('motorista/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CorridaController.prototype, "findByMotorista", null);
+__decorate([
+    (0, common_1.Get)('passageiro/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CorridaController.prototype, "findByPassageiro", null);
+__decorate([
+    (0, common_1.Get)('veiculo/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CorridaController.prototype, "findByVeiculo", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -67,7 +101,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CorridaController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Put)(':id'),
+    (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

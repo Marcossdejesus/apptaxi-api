@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException } from '@nestjs/common';
 import { CorridaService } from './corrida.service';
 import { CreateCorridaDto } from './dto/create-corrida.dto';
 import { UpdateCorridaDto } from './dto/update-corrida.dto';
@@ -13,8 +13,26 @@ export class CorridaController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('status') status?: string) {
+    if (status) {
+      return this.corridaService.findByStatus(status);
+    }
     return this.corridaService.findAll();
+  }
+
+  @Get('motorista/:id')
+  findByMotorista(@Param('id') id: string) {
+    return this.corridaService.findByMotorista(+id);
+  }
+
+  @Get('passageiro/:id')
+  findByPassageiro(@Param('id') id: string) {
+    return this.corridaService.findByPassageiro(+id);
+  }
+
+  @Get('veiculo/:id')
+  findByVeiculo(@Param('id') id: string) {
+    return this.corridaService.findByVeiculo(+id);
   }
 
   @Get(':id')
@@ -22,7 +40,7 @@ export class CorridaController {
     return this.corridaService.findOne(+id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(@Param('id') id: string, @Body() updateCorridaDto: UpdateCorridaDto) {
     const corridaId = parseInt(id, 10);
     if (isNaN(corridaId)) {

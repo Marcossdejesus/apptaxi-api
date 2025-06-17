@@ -584,6 +584,131 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Veículos",
+			"item": [
+				{
+					"name": "Listar Veículos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/veiculos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["veiculos"]
+						}
+					}
+				},
+				{
+					"name": "Criar Veículo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"placa\": \"ABC1234\",\n    \"modelo\": \"Toyota Corolla\",\n    \"marca\": \"Toyota\",\n    \"ano\": 2023,\n    \"cor\": \"Prata\",\n    \"status\": \"DISPONIVEL\",\n    \"dataUltimaManutencao\": \"2024-03-20T00:00:00.000Z\",\n    \"dataVencimentoIPVA\": \"2024-12-31T00:00:00.000Z\",\n    \"dataVencimentoSeguro\": \"2024-12-31T00:00:00.000Z\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/veiculos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["veiculos"]
+						}
+					}
+				},
+				{
+					"name": "Criar Veículo - Regra Placa Duplicada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"placa\": \"ABC1234\",\n    \"modelo\": \"Honda Civic\",\n    \"marca\": \"Honda\",\n    \"ano\": 2023,\n    \"cor\": \"Preto\",\n    \"status\": \"DISPONIVEL\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/veiculos",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["veiculos"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Veículo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"EM_MANUTENCAO\",\n    \"dataUltimaManutencao\": \"2024-03-21T00:00:00.000Z\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/veiculos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["veiculos", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Veículo - Regra Status Inválido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"STATUS_INVALIDO\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/veiculos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["veiculos", "1"]
+						}
+					}
+				},
+				{
+					"name": "Remover Veículo - Regra Corrida Associada",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/veiculos/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["veiculos", "1"]
+						}
+					}
+				}
+			]
 		}
 	]
 } 

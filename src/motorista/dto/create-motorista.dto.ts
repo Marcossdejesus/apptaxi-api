@@ -1,4 +1,6 @@
-import { IsNotEmpty, IsString, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsString, IsBoolean, IsEmail, IsOptional, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateVeiculoDto } from '../../veiculo/dto/create-veiculo.dto';
 
 export class CreateMotoristaDto {
   @IsNotEmpty({ message: 'O nome é obrigatório' })
@@ -19,4 +21,19 @@ export class CreateMotoristaDto {
 
   @IsBoolean({ message: 'A disponibilidade deve ser um booleano' })
   disponivel: boolean;
+
+  @IsString()
+  telefone: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsBoolean()
+  @IsOptional()
+  ativo?: boolean;
+
+  @ValidateNested()
+  @Type(() => CreateVeiculoDto)
+  @IsOptional()
+  veiculo?: CreateVeiculoDto;
 }   

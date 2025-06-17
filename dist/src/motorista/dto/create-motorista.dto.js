@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMotoristaDto = void 0;
 const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
+const create_veiculo_dto_1 = require("../../veiculo/dto/create-veiculo.dto");
 class CreateMotoristaDto {
 }
 exports.CreateMotoristaDto = CreateMotoristaDto;
@@ -38,4 +40,23 @@ __decorate([
     (0, class_validator_1.IsBoolean)({ message: 'A disponibilidade deve ser um booleano' }),
     __metadata("design:type", Boolean)
 ], CreateMotoristaDto.prototype, "disponivel", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateMotoristaDto.prototype, "telefone", void 0);
+__decorate([
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], CreateMotoristaDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], CreateMotoristaDto.prototype, "ativo", void 0);
+__decorate([
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => create_veiculo_dto_1.CreateVeiculoDto),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", create_veiculo_dto_1.CreateVeiculoDto)
+], CreateMotoristaDto.prototype, "veiculo", void 0);
 //# sourceMappingURL=create-motorista.dto.js.map

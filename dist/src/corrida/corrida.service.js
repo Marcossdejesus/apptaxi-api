@@ -19,11 +19,13 @@ const typeorm_2 = require("typeorm");
 const corrida_entity_1 = require("./entities/corrida.entity");
 const motorista_service_1 = require("../motorista/motorista.service");
 const passageiro_service_1 = require("../passageiro/passageiro.service");
+const veiculo_service_1 = require("../veiculo/veiculo.service");
 let CorridaService = class CorridaService {
-    constructor(corridaRepository, motoristaService, passageiroService) {
+    constructor(corridaRepository, motoristaService, passageiroService, veiculoService) {
         this.corridaRepository = corridaRepository;
         this.motoristaService = motoristaService;
         this.passageiroService = passageiroService;
+        this.veiculoService = veiculoService;
     }
     async create(createCorridaDto) {
         console.log('Dados recebidos:', createCorridaDto);
@@ -56,6 +58,13 @@ let CorridaService = class CorridaService {
             status: corrida_entity_1.CorridaStatus.PENDENTE
         });
         console.log('Corrida a ser criada:', corrida);
+        if (createCorridaDto.veiculoId) {
+            const veiculo = await this.veiculoService.findOne(createCorridaDto.veiculoId);
+            corrida.veiculo = veiculo;
+        }
+        else if (motorista.veiculo) {
+            corrida.veiculo = motorista.veiculo;
+        }
         try {
             const corridaSalva = await this.corridaRepository.save(corrida);
             console.log('Corrida salva:', corridaSalva);
@@ -65,6 +74,7 @@ let CorridaService = class CorridaService {
                 .createQueryBuilder('corrida')
                 .leftJoinAndSelect('corrida.motorista', 'motorista')
                 .leftJoinAndSelect('corrida.passageiro', 'passageiro')
+                .leftJoinAndSelect('corrida.veiculo', 'veiculo')
                 .where('corrida.id = :id', { id: corridaSalva.id })
                 .getOne();
             console.log('Corrida completa recuperada:', corridaCompleta);
@@ -79,7 +89,7 @@ let CorridaService = class CorridaService {
         try {
             console.log('Buscando todas as corridas');
             const corridas = await this.corridaRepository.find({
-                relations: ['motorista', 'passageiro']
+                relations: ['motorista', 'passageiro', 'veiculo']
             });
             console.log('Corridas encontradas:', corridas);
             return corridas;
@@ -99,6 +109,7 @@ let CorridaService = class CorridaService {
                 .createQueryBuilder('corrida')
                 .leftJoinAndSelect('corrida.motorista', 'motorista')
                 .leftJoinAndSelect('corrida.passageiro', 'passageiro')
+                .leftJoinAndSelect('corrida.veiculo', 'veiculo')
                 .where('corrida.id = :id', { id: Number(id) })
                 .getOne();
             console.log('Corrida encontrada:', {
@@ -106,8 +117,10 @@ let CorridaService = class CorridaService {
                 status: corrida?.status,
                 motoristaId: corrida?.motorista?.id,
                 passageiroId: corrida?.passageiro?.id,
+                veiculoId: corrida?.veiculo?.id,
                 motorista: corrida?.motorista,
-                passageiro: corrida?.passageiro
+                passageiro: corrida?.passageiro,
+                veiculo: corrida?.veiculo
             });
             if (!corrida) {
                 throw new common_1.BadRequestException(`Corrida com ID ${id} não encontrada`);
@@ -128,20 +141,13 @@ let CorridaService = class CorridaService {
                 throw new common_1.BadRequestException('ID inválido');
             }
             console.log(`Atualizando corrida ID: ${id}`);
-            const corrida = await this.corridaRepository
-                .createQueryBuilder('corrida')
-                .leftJoinAndSelect('corrida.motorista', 'motorista')
-                .leftJoinAndSelect('corrida.passageiro', 'passageiro')
-                .where('corrida.id = :id', { id: Number(id) })
-                .getOne();
-            if (!corrida) {
-                throw new common_1.BadRequestException(`Corrida com ID ${id} não encontrada`);
-            }
+            const corrida = await this.findOne(id);
             console.log('Corrida encontrada:', {
                 id: corrida.id,
                 status: corrida.status,
                 motoristaId: corrida.motorista?.id,
-                passageiroId: corrida.passageiro?.id
+                passageiroId: corrida.passageiro?.id,
+                veiculoId: corrida.veiculo?.id
             });
             if (updateCorridaDto.status === corrida_entity_1.CorridaStatus.CANCELADA && corrida.status === corrida_entity_1.CorridaStatus.EM_ANDAMENTO) {
                 throw new common_1.ConflictException('Não é possível cancelar uma corrida em andamento');
@@ -178,15 +184,12 @@ let CorridaService = class CorridaService {
     async remove(id) {
         try {
             console.log('Tentando remover corrida ID:', id);
-            const corrida = await this.corridaRepository
-                .createQueryBuilder('corrida')
-                .leftJoinAndSelect('corrida.motorista', 'motorista')
-                .where('corrida.id = :id', { id })
-                .getOne();
+            const corrida = await this.findOne(id);
             console.log('Corrida encontrada:', {
                 id: corrida?.id,
                 status: corrida?.status,
-                motoristaId: corrida?.motoristaId
+                motoristaId: corrida?.motoristaId,
+                veiculoId: corrida?.veiculoId
             });
             if (!corrida) {
                 throw new common_1.NotFoundException(`Corrida com ID ${id} não encontrada`);
@@ -241,6 +244,31 @@ let CorridaService = class CorridaService {
             throw new common_1.BadRequestException(`Erro ao remover corrida: ${error.message}`);
         }
     }
+    async findByStatus(status) {
+        const corridaStatus = status;
+        return await this.corridaRepository.find({
+            where: { status: corridaStatus },
+            relations: ['motorista', 'passageiro', 'veiculo'],
+        });
+    }
+    async findByMotorista(motoristaId) {
+        return await this.corridaRepository.find({
+            where: { motorista: { id: motoristaId } },
+            relations: ['motorista', 'passageiro', 'veiculo'],
+        });
+    }
+    async findByPassageiro(passageiroId) {
+        return await this.corridaRepository.find({
+            where: { passageiro: { id: passageiroId } },
+            relations: ['motorista', 'passageiro', 'veiculo'],
+        });
+    }
+    async findByVeiculo(veiculoId) {
+        return await this.corridaRepository.find({
+            where: { veiculo: { id: veiculoId } },
+            relations: ['motorista', 'passageiro', 'veiculo'],
+        });
+    }
 };
 exports.CorridaService = CorridaService;
 exports.CorridaService = CorridaService = __decorate([
@@ -248,6 +276,7 @@ exports.CorridaService = CorridaService = __decorate([
     __param(0, (0, typeorm_1.InjectRepository)(corrida_entity_1.Corrida)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         motorista_service_1.MotoristaService,
-        passageiro_service_1.PassageiroService])
+        passageiro_service_1.PassageiroService,
+        veiculo_service_1.VeiculoService])
 ], CorridaService);
 //# sourceMappingURL=corrida.service.js.map
